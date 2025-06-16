@@ -1,4 +1,4 @@
-##Programación Tradicional
+
 def ingresar_temperaturas():
   
     ##Solicita al usuario ingresar las temperaturas diarias durante 7 días.

@@ -1,1 +1,28 @@
+##Programación Tradicional
+def ingresar_temperaturas():
+  
+    ##Solicita al usuario ingresar las temperaturas diarias durante 7 días.
+    ##Guarda las temperaturas en una lista y la devuelve.
+    
+    temperaturas = []
+    for dia in range(7):
+        temp = float(input(f"Ingrese la temperatura del día {dia + 1}: "))
+        temperaturas.append(temp)
+    return temperaturas
+def calcular_promedio(temperaturas):
+    
+    #Calcula y devuelve el promedio de la lista de temperaturas recibida.
 
+    return sum(temperaturas) / len(temperaturas)
+def main_tradicional():
+    print("=== Programación Tradicional ===")
+    print("Cálculo del promedio semanal de temperaturas")
+    
+    # Se ingresan las temperaturas diarias (7 días)
+    temperaturas = ingresar_temperaturas()
+    
+    # Se calcula el promedio semanal de temperaturas
+    promedio = calcular_promedio(temperaturas)
+    
+    # Se muestra el resultado formateado con dos decimales
+    print(f"El promedio semanal de temperaturas es: {promedio:.2f}°C\n")

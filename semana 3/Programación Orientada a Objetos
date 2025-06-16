@@ -1,0 +1,27 @@
+
+class Clima:
+    """
+    Clase que representa la información diaria del clima.
+    Encapsula las temperaturas y métodos para ingreso y cálculo del promedio.
+    """
+    def __init__(self):
+        self.temperaturas = []  # Lista para almacenar temperaturas
+    def ingresar_temperatura(self, dia):
+        """
+        Solicita al usuario ingresar la temperatura para un día específico
+        y la añade a la lista de temperaturas.
+        """
+        temp = float(input(f"Ingrese la temperatura del día {dia + 1}: "))
+        self.temperaturas.append(temp)
+    def calcular_promedio(self):
+        """
+        Calcula y devuelve el promedio de las temperaturas almacenadas.
+        Si no hay temperaturas, devuelve 0.
+        """
+        if len(self.temperaturas) == 0:
+            return 0
+        return sum(self.temperaturas) / len(self.temperaturas)
+def main_poo():
+    print("=== Programación Orientada a Objetos (POO) ===")
+    print("Cálculo del promedio semanal de temperaturas")
+    

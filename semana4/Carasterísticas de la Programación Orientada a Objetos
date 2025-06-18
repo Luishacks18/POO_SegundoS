@@ -1,0 +1,44 @@
+# Clase para representar a un cliente
+class Cliente:
+    def _init_(self, nombre, correo):
+        self.nombre = nombre
+        self.correo = correo
+
+# Clase para representar una habitación
+class Habitacion:
+    def _init_(self, numero, tipo, precio):
+        self.numero = numero
+        self.tipo = tipo
+        self.precio = precio
+        self.esta_disponible = True  # Todas las habitaciones empiezan como disponibles
+
+# Clase para hacer una reserva
+class Reserva:
+    def _init_(self, cliente, habitacion, noches):
+        self.cliente = cliente
+        self.habitacion = habitacion
+        self.noches = noches
+        self.total = noches * habitacion.precio
+        self.habitacion.esta_disponible = False  # Marcar la habitación como ocupada
+
+# Código para probar el sistema
+cliente1 = Cliente("Laura Gómez", "laura@gmail.com")
+habitacion1 = Habitacion(1, "doble", 100)
+habitacion2 = Habitacion(2, "suite", 200)
+
+print("Habitaciones antes de la reserva:")
+print(f"Habitación {habitacion1.numero} - Disponible: {habitacion1.esta_disponible}")
+print(f"Habitación {habitacion2.numero} - Disponible: {habitacion2.esta_disponible}")
+
+# Crear una reserva
+reserva1 = Reserva(cliente1, habitacion1, 2)
+
+print("\nReserva realizada:")
+print(f"Cliente: {reserva1.cliente.nombre}")
+print(f"Habitación reservada: {reserva1.habitacion.numero}")
+print(f"Noches: {reserva1.noches}")
+print(f"Total a pagar: ${reserva1.total}")
+
+print("\nHabitaciones después de la reserva:")
+print(f"Habitación {habitacion1.numero} - Disponible: {habitacion1.esta_disponible}")
+print(f"Habitación {habitacion2.numero} - Disponible: {habitacion2.esta_disponible}")

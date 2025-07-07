@@ -1,0 +1,56 @@
+class Animal:
+    """
+    Clase base que representa a un animal.
+    """
+    def __init__(self, nombre, edad):
+        self._nombre = nombre
+        self._edad = edad
+
+    def hablar(self):
+        """
+        Método que hace que el animal emita un sonido.
+        """
+        print(f"{self._nombre} hace un sonido.")
+
+    def moverse(self):
+        """
+        Método que hace que el animal se mueva.
+        """
+        print(f"{self._nombre} se mueve.")
+
+class Perro(Animal):
+    """
+    Clase derivada que corresponde a un perro que hereda de la clase Animal.
+    """
+    def __init__(self, nombre, edad, raza):
+        super().__init__(nombre, edad)
+        self._raza = raza
+
+    def hablar(self):
+        """
+        Método sobrescrito que hace que el perro ladre.
+        """
+        print(f"{self._nombre} ladra.")
+
+    def jugar(self, juguete):
+        """
+        Método que hace que el perro juegue con un juguete.
+        """
+        print(f"{self._nombre} está jugando con el {juguete}.")
+
+# Crear instancias de las clases
+animal = Animal("León", 5)
+perro = Perro("Firulais", 3, "Labrador")
+
+# Demostrar el uso de los métodos
+animal.hablar()
+animal.moverse()
+
+perro.hablar()
+perro.moverse()
+perro.jugar("hueso")
+
+# Demostrar el uso de la encapsulación
+print(f"El nombre del animal es: {perro._nombre}")
+print(f"La edad del animal es: {perro._edad}")
+print(f"La raza del perro es: {perro._raza}")

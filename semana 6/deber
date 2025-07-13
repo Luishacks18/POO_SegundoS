@@ -1,0 +1,56 @@
+class PersonaInscrita:
+    def __init__(self, nombre, edad):
+        """Crea una persona inscrita con sus datos básicos."""
+        self.nombre = nombre
+        self.edad = edad
+        print(f"Se ha registrado a {self.nombre}, con {self.edad} años.")
+
+    def __del__(self):
+        """Mensaje que aparece cuando se elimina la persona del sistema."""
+        print(f"Registro de {self.nombre} eliminado.")
+
+    def descripcion(self):
+        """Devuelve una cadena con la información del participante."""
+        return f"{self.nombre} (Edad: {self.edad})"
+
+
+class ActividadFormativa:
+    def __init__(self, titulo):
+        """Inicializa la actividad y crea la lista para inscripciones."""
+        self.titulo = titulo
+        self.participantes = []
+        print(f"Actividad creada: {self.titulo}")
+
+    def registrar(self, persona):
+        """Inscribe a una persona en la actividad."""
+        self.participantes.append(persona)
+        print(f"{persona.nombre} ha sido inscrito/a en '{self.titulo}'.")
+
+    def __del__(self):
+        """Mensaje cuando la actividad se termina."""
+        print(f"La actividad '{self.titulo}' ha concluido.")
+        self.participantes.clear()
+
+    def ver_participantes(self):
+        """Muestra a todos los participantes registrados."""
+        return [p.descripcion() for p in self.participantes]
+
+
+# Ejecución principal
+if __name__ == "__main__":
+    actividad = ActividadFormativa("Taller de Herramientas Digitales")
+
+    persona1 = PersonaInscrita("Elena Ríos", 28)
+    persona2 = PersonaInscrita("Gabriel Díaz", 30)
+
+    actividad.registrar(persona1)
+    actividad.registrar(persona2)
+
+    print("\nListado de personas inscritas:")
+    for linea in actividad.ver_participantes():
+        print(linea)
+
+    # Eliminamos objetos manualmente
+    del persona1
+    del persona2
+    del actividad

@@ -1,0 +1,161 @@
+import os
+
+class Item:
+    def __init__(self, codigo, producto, stock, valor):
+        self.codigo = codigo
+        self.producto = producto
+        self.stock = stock
+        self.valor = valor
+
+    def __str__(self):
+        return f"Código: {self.codigo}, Descripción: {self.producto}, Stock: {self.stock}, Valor: {self.valor}"
+
+    def obtener_codigo(self):
+        return self.codigo
+
+    def obtener_producto(self):
+        return self.producto
+
+    def obtener_stock(self):
+        return self.stock
+
+    def obtener_valor(self):
+        return self.valor
+
+    def actualizar_stock(self, nuevo_stock):
+        self.stock = nuevo_stock
+
+    def actualizar_valor(self, nuevo_valor):
+        self.valor = nuevo_valor
+
+class Almacen:
+    def __init__(self, archivo='inventario.txt'):
+        self.items = []
+        self.archivo = archivo
+        self.cargar_inventario()
+
+    def cargar_inventario(self):
+        if os.path.exists(self.archivo):
+            try:
+                with open(self.archivo, 'r') as file:
+                    for line in file:
+                        codigo, producto, stock, valor = line.strip().split(',')
+                        self.items.append(Item(codigo, producto, int(stock), float(valor)))
+            except (FileNotFoundError, PermissionError) as error:
+                print(f"Error al cargar el inventario: {error}")
+
+    def guardar_inventario(self):
+        try:
+            with open(self.archivo, 'w') as file:
+                for item in self.items:
+                    file.write(f"{item.obtener_codigo()},{item.obtener_producto()},{item.obtener_stock()},{item.obtener_valor()}\n")
+        except (FileNotFoundError, PermissionError) as error:
+            print(f"Error al guardar el inventario: {error}")
+
+    def añadir_item(self, item):
+        for i in self.items:
+            if i.obtener_codigo() == item.obtener_codigo():
+                print(f"Error: El item con código {item.obtener_codigo()} ya existe.")
+                return
+        self.items.append(item)
+        self.guardar_inventario()
+        print(f"Item {item.obtener_producto()} añadido al almacén.")
+
+    def quitar_item(self, codigo_item):
+        for idx, i in enumerate(self.items):
+            if i.obtener_codigo() == codigo_item:
+                self.items.pop(idx)
+                self.guardar_inventario()
+                print(f"Item con código {codigo_item} eliminado del almacén.")
+                return
+        print(f"Error: No se encontró ningún item con código {codigo_item}.")
+
+    def modificar_item(self, codigo_item, nuevo_stock=None, nuevo_valor=None):
+        for i in self.items:
+            if i.obtener_codigo() == codigo_item:
+                if nuevo_stock is not None:
+                    i.actualizar_stock(nuevo_stock)
+                if nuevo_valor is not None:
+                    i.actualizar_valor(nuevo_valor)
+                self.guardar_inventario()
+                print(f"Item con código {codigo_item} actualizado.")
+                return
+        print(f"Error: No se encontró ningún item con código {codigo_item}.")
+
+    def buscar_items(self, producto_item):
+        resultados = []
+        for i in self.items:
+            if producto_item.lower() in i.obtener_producto().lower():
+                resultados.append(i)
+        return resultados
+
+    def mostrar_almacen(self):
+        if not self.items:
+            print("El almacén está vacío.")
+        else:
+            print("Almacén:")
+            for i in self.items:
+                print(i)
+
+almacen = Almacen()
+
+while True:
+    print(" _______________________")
+    print("|   Menú de Gestión     |")
+    print("|       de Almacén      |")
+    print("|_______________________|")
+    print("|  1. Añadir            |")
+    print("|  2. Quitar            |")
+    print("|  3. Modificar         |")
+    print("|  4. Buscar            |")
+    print("|  5. Mostrar           |")
+    print("|  6. Salir             |")
+    print("|_______________________|")
+
+    opcion = input("Ingrese el número de la opción: ")
+
+    if opcion == "1":
+        codigo_item = input("Ingrese el código del item: ")
+        producto_item = input("Nombre del item: ")
+        stock_item = int(input("Ingrese el stock del item: "))
+        valor_item = float(input("Ingrese el valor del item: "))
+        item = Item(codigo_item, producto_item, stock_item, valor_item)
+        almacen.añadir_item(item)
+
+    elif opcion == "2":
+        codigo_item = input("Ingrese el código del item a quitar: ")
+        almacen.quitar_item(codigo_item)
+
+    elif opcion == "3":
+        codigo_item = input("Ingrese el código del item a modificar: ")
+        nuevo_stock = input("Ingrese el nuevo stock: ")
+        nuevo_valor = input("Ingrese el nuevo valor : ")
+        if nuevo_stock:
+            nuevo_stock = int(nuevo_stock)
+        else:
+            nuevo_stock = None
+        if nuevo_valor:
+            nuevo_valor = float(nuevo_valor)
+        else:
+            nuevo_valor = None
+        almacen.modificar_item(codigo_item, nuevo_stock, nuevo_valor)
+
+    elif opcion == "4":
+        producto_item = input("Ingrese la descripción del item a buscar: ")
+        resultados = almacen.buscar_items(producto_item)
+        if not resultados:
+            print(f"No se encontraron items con la descripción '{producto_item}'.")
+        else:
+            print(f"Resultados de la búsqueda de '{producto_item}':")
+            for item in resultados:
+                print(item)
+
+    elif opcion == "5":
+        almacen.mostrar_almacen()
+
+    elif opcion == "6":
+        print("¡Hasta luego!")
+        break
+
+    else:
+        print("Opción inválida. Intente de nuevo.")
